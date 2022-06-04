@@ -44,7 +44,7 @@ mylib::list<U>& mylib::list<U>::operator=(list<U>&& rhs) noexcept
     if(this == &rhs) {
         return *this;
     }
-    if(!is_empty()) {
+    if(!empty()) {
         clear();
     }
     this->m_head = rhs.m_head;
@@ -100,14 +100,14 @@ size_t mylib::list<U>::size() const
 template <class U>
 mylib::list<U>::~list()
 {
-    if(!is_empty())
+    if(!empty())
     clear();
 }
 
 template <class U>
 void mylib::list<U>::clear() 
 {
-    if(!is_empty()) {
+    if(!empty()) {
         while (m_head)
         {
             this->pop_front();
@@ -118,7 +118,7 @@ void mylib::list<U>::clear()
 }
 
 template <class U>
-bool mylib::list<U>::is_empty() const 
+bool mylib::list<U>::empty() const 
 {
     return m_head == nullptr;
 }
@@ -212,6 +212,33 @@ typename mylib::list<U>::Iterator mylib::list<U>::emplace
     pos.get()->m_prev->m_next = new Node<U> (U{args...}, pos.get(), pos.get()->m_prev);
     pos.get()->m_prev->m_next->m_next->m_prev = pos.get()->m_prev->m_next;
     return --pos;
+}
+
+template <class U>
+template <class... Args>
+typename mylib::list<U>::Iterator mylib::list<U>::emplace_back
+(Args&&... args) 
+{
+    if(m_tail){
+    mylib::list<U>::Iterator old_end=end();
+    push_back(U{args...});
+    return old_end;
+    }
+    else 
+    {
+        push_back(U{args...});
+        return begin();
+    }
+}
+
+
+template <class U>
+template <class... Args>
+typename mylib::list<U>::Iterator mylib::list<U>::emplace_front
+(Args&&... args) 
+{
+    push_front(U{args...});
+    return --back();
 }
 
 template <class U>

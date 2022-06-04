@@ -152,7 +152,7 @@ namespace mylib {
         U& back();
         const U& front() const;
         const U& back() const;
-        bool is_empty() const;
+        bool empty() const;
         void pop_front();
         void pop_back();
         void clear();
@@ -161,6 +161,10 @@ namespace mylib {
         Iterator insert(Iterator pos, const U& element);
         template <class... Args>
         Iterator emplace(Iterator pos, Args&&... args);
+        template <class... Args>       
+        Iterator emplace_back(Args&&... args);
+        template <class... Args>
+        Iterator emplace_front(Args&&... args);
         Iterator erase(Iterator pos);
         void swap(list& rhs);
         void sort();
@@ -192,7 +196,7 @@ namespace mylib {
         bool operator>=(const list<U>& rhs) const; 
         friend std::ostream& operator<<(std::ostream& os, list<U>& lst) 
         {
-            if(!lst.is_empty()) {
+            if(!lst.empty()) {
                 for(auto it : lst) {
                     os << it << " ";
                 }
