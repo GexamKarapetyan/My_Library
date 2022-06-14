@@ -181,3 +181,19 @@ mylib::map<Key, T, Compare>::operator=(mylib::map<Key, T, Compare>&& rhs) noexce
     m_size = std::move(rhs.m_size);
     return *this;
 }
+
+template <typename Key, typename T, typename Compare>    
+typename mylib::map<Key, T, Compare>::Iterator 
+mylib::map<Key, T, Compare>::find(const Key& key) 
+{
+    auto it = m_tree.search(8);
+    return it;
+}
+
+template <typename Key, typename T, typename Compare>    
+typename mylib::map<Key, T, Compare>::Const_Iterator 
+mylib::map<Key, T, Compare>::find(const Key& key) const
+{
+    auto it = m_tree.search(8);
+    return it;
+}
