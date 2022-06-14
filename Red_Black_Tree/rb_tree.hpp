@@ -201,8 +201,8 @@ void mylib::rb_tree<Key, T, Compare>::m_print_in_order(node* root)
         return;
     }
     m_print_in_order(root->m_left);
-    std::cout << '[' << root->m_color << ' ' << '{' << root->m_value.first  
-     << ", " << root->m_value.second << '}' << "] " ;
+    std::cout << '[' <<root->m_value.first  
+     << ", " << root->m_value.second  << "] " ;
     m_print_in_order(root->m_right);
 }
 
