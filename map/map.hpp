@@ -135,3 +135,49 @@ typename mylib::map<Key, T, Compare>::Iterator mylib::map<Key, T, Compare>::eras
     --m_size;
     return tmp;
 }
+
+template <typename Key, typename T, typename Compare>
+mylib::map<Key, T, Compare>::map(const Compare& comp)
+{
+    m_tree.get_compare() = comp;
+}
+
+template <typename Key, typename T, typename Compare>
+mylib::map<Key, T, Compare>::map(std::initializer_list<value_type> ilist)
+{
+    auto cur = ilist.begin();
+    while(cur != ilist.end()) {
+        insert(*cur);
+        ++cur;
+    }
+}
+
+template <typename Key, typename T, typename Compare>    
+mylib::map<Key, T, Compare>& 
+mylib::map<Key, T, Compare>::operator=(const mylib::map<Key, T, Compare>& rhs)
+{
+    if(this == &rhs) {
+        return *this;
+    }
+    if(!empty()) {
+        clear();
+    }
+    m_tree = rhs.m_tree;
+    m_size = rhs.m_size;
+    return *this;
+}
+
+template <typename Key, typename T, typename Compare>    
+mylib::map<Key, T, Compare>& 
+mylib::map<Key, T, Compare>::operator=(mylib::map<Key, T, Compare>&& rhs) noexcept
+{
+    if(this == &rhs) {
+        return *this;
+    }
+    if(!empty()) {
+        clear();
+    }
+    m_tree = std::move(rhs.m_tree);
+    m_size = std::move(rhs.m_size);
+    return *this;
+}
