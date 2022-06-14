@@ -7,8 +7,8 @@
 #include <exception>
 #include <stdexcept>
 
-#include "../Pair/pair.h"
-#include "../Red_Black_Tree/rb_tree.h"
+#include "../utility/utility.h"
+#include "../data_structures/rb_tree/rb_tree.h"
 
 namespace mylib
 {
@@ -111,6 +111,8 @@ namespace mylib
         void clear() noexcept;
         void insert(const value_type& value);
         Iterator erase(Iterator pos);
+        Iterator find(const Key& key);
+        Const_Iterator find(const Key& key) const;
     private:
         mylib::rb_tree<Key, T, Compare> m_tree;
         size_type m_size;
