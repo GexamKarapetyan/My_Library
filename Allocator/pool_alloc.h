@@ -15,10 +15,18 @@ namespace mylib
             typedef T& reference;
             typedef T* pointer;
         public:
-            Pool_alloc(size_t block_size = 1000000 , size_t subblock_size = 4);
+            Pool_alloc(size_t block_size = 1000000 , size_t subblock_size = sizeof(T));
+            template <typename U>
+            Pool_alloc(const Pool_alloc<U> & ob);
             pointer allocate (size_t count);
             void deallocate (T* start , size_t count);
             void free();
+        public:
+            size_t get_chunk() const {return m_chunk;}
+            size_t get_block_count() const {return m_block_count;}
+            size_t get_block_size() const {return m_block_size;}
+            size_t get_free_size() const {return m_free_size;}
+            auto get_buffer() const {return m_buffer;}
         private:
             size_t m_chunk;
             size_t m_block_count;
