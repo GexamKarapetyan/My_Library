@@ -8,7 +8,7 @@ mylib::Pool_alloc<T>::Pool_alloc(size_t block_size , size_t subblock_size)
     m_chunk = (block_size / subblock_size) * subblock_size;
     m_free_size = m_chunk;
     m_start = (int8_t*)::operator new(m_chunk);
-    m_end = m_start + block_size;
+    m_end = m_start + m_chunk;
     int8_t * tmp =m_start;
 
     while (tmp != m_end)
@@ -20,12 +20,26 @@ mylib::Pool_alloc<T>::Pool_alloc(size_t block_size , size_t subblock_size)
 }
 
 template <class T>
-mylib::Pool_alloc<T>::pointer
+template <typename U>
+mylib::Pool_alloc<T>::Pool_alloc(const mylib::Pool_alloc<U>& ob)
+{
+    m_chunk = ob.get_chunk();
+    m_block_count = ob.get_block_count();
+    m_block_size = ob.get_block_size();
+    m_free_size = ob.get_free_size();
+    m_start = (int8_t*)::operator new(m_chunk);
+    m_end = m_start + m_chunk;
+    m_buffer = ob.get_buffer();
+}
+
+
+template <class T>
+typename mylib::Pool_alloc<T>::pointer
 mylib::Pool_alloc<T>::allocate(size_t count)
 {
 
     if((count * sizeof(T) > m_free_size))
-    {
+    {   
         throw (std::out_of_range("out of range"));
         exit(1);
     }
